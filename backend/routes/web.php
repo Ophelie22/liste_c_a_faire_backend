@@ -1,7 +1,4 @@
 <?php
-
-/** @var \Laravel\Lumen\Routing\Router $router */
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -12,8 +9,6 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-// on a une route /, accessible en GET, qui va appeler la méthode home de
-// MainController. Nommée "main-home" pour le reverse-routing
 $router->get(
     '/',
     [
@@ -23,19 +18,77 @@ $router->get(
 );
 
 
+// this route will used to explore Lumen features
 $router->get(
-    '/tests',
+    '/bdd/select',
     [
-        'uses' => 'MainController@tests',
-        'as'   => 'main-test'
+        'uses' => 'DecouverteLumenController@bddSelect',
+        'as'   => 'main-bddSelect'
     ]
 );
 
-// list all categories
+$router->get(
+    '/bdd/selectAllORM',
+    [
+        'uses' => 'DecouverteLumenController@bddSelectWithModel',
+        'as'   => 'main-bddSelectWithModel'
+    ]
+);
+
+$router->get(
+    '/bdd/selectByIdORM',
+    [
+        'uses' => 'DecouverteLumenController@bddSelectByIdWithModel',
+        'as'   => 'main-bddSelectByIdWithModel'
+    ]
+);
+
+$router->get(
+    '/bdd/bddSelectManyByIdWithModel',
+    [
+        'uses' => 'DecouverteLumenController@bddSelectManyByIdWithModel',
+        'as'   => 'main-bddSelectManyByIdWithModel'
+    ]
+);
+
+$router->get(
+    '/bdd/bddSelectWithCustomModelQuery',
+    [
+        'uses' => 'DecouverteLumenController@bddSelectWithCustomModelQuery',
+        'as'   => 'main-bddSelectWithCustomModelQuery'
+    ]
+);
+
+$router->get(
+    '/bdd/bddSelectCourseCategory',
+    [
+        'uses' => 'DecouverteLumenController@bddSelectCourseCategory',
+        'as'   => 'main-bddSelectCourseCategory'
+    ]
+);
+
+$router->get(
+    '/bdd/bddSelectTasksFromCategory',
+    [
+        'uses' => 'DecouverteLumenController@bddSelectTasksFromCategory',
+        'as'   => 'main-bddSelectTasksFromCategory'
+    ]
+);
+
+
+// declaratipon of a new route to retrieve categories list
 $router->get(
     '/categories',
     [
         'uses' => 'CategoryController@list',
-        'as'   => 'categories-list'
+        'as'   => 'category-list'
+    ]
+);
+// retrieve data for a specific category
+$router->get(
+    '/categories/{id}',
+    [
+        'uses' => 'CategoryController@item',
+        'as'   => 'category-item'
     ]
 );

@@ -21,6 +21,16 @@ $router->get(
         'as'   => 'main-home'
     ]
 );
+
+
+$router->get(
+    '/tests',
+    [
+        'uses' => 'MainController@tests',
+        'as'   => 'main-test'
+    ]
+);
+
 // list all categories
 $router->get(
     '/categories',

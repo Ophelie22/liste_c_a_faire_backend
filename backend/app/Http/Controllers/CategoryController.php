@@ -2,43 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-
 class CategoryController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public function list()
     {
-        // now we can use the Category Model
-        $categoriesList = Category::all();
+        $categoriesList = [
+            1 => [
+              'id' => 1,
+              'name' => 'Chemin vers O\'clock',
+              'status' => 1
+            ],
+            2 => [
+              'id' => 2,
+              'name' => 'Courses',
+              'status' => 1
+            ],
+            3 => [
+              'id' => 3,
+              'name' => 'O\'clock',
+              'status' => 1
+            ],
+            4 => [
+              'id' => 4,
+              'name' => 'Titre Professionnel',
+              'status' => 1
+            ]
+        ];
 
-        return $this->sendJSONResponse($categoriesList);
+        // return categories as JSON
+        return response()->json($categoriesList);
     }
-
-    public function item($categoryId)
-    {
-
-        $category = Category::find($categoryId);
-        //check if the asked category exists
-        if($category !== null) {
-            return $this->sendJSONResponse($category);
-        }
-        else {
-            abort(404);
-        }
-    }
-
-
-
+}
 
     //
-}

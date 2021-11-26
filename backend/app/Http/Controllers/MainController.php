@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Category;
 use DB;
+use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
@@ -10,17 +12,22 @@ class MainController extends Controller
      *
      * @return void
      */
+    public function __construct()
+    {
+        //
+    }
     public function home()
     {
-        echo 'Welcome';
+        return 'Welcome';
     }
 
  public function tests()
     {
         // interaction avce la bDD si je tape /tests ds mon url alors g "test method called qui apparait"
         //Simple Select
-         $categories = DB::select('SELECT * FROM `categories`');
+         $categories = Category ::all();
+         //DB::select('SELECT * FROM `categories`');
 
-        return 'test method called';
+        return $this->sendJSONResponse($categories);
     }
 }

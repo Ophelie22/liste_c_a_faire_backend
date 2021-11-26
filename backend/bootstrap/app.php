@@ -6,8 +6,6 @@ require_once __DIR__.'/../vendor/autoload.php';
     dirname(__DIR__)
 ))->bootstrap();
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -50,19 +48,6 @@ $app->singleton(
 
 /*
 |--------------------------------------------------------------------------
-| Register Config Files
-|--------------------------------------------------------------------------
-|
-| Now we will register the "app" configuration file. If the file exists in
-| your configuration directory it will be loaded; otherwise, we'll load
-| the default version. You may register other files below as needed.
-|
-*/
-
-$app->configure('app');
-
-/*
-|--------------------------------------------------------------------------
 | Register Middleware
 |--------------------------------------------------------------------------
 |
@@ -75,9 +60,11 @@ $app->configure('app');
 // $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
+
 $app->middleware([
     App\Http\Middleware\Cors::class
 ]);
+
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);

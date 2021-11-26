@@ -12,7 +12,20 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+// on a une route /, accessible en GET, qui va appeler la méthode home de
+// MainController. Nommée "main-home" pour le reverse-routing
+$router->get(
+    '/',
+    [
+        'uses' => 'MainController@home',
+        'as'   => 'main-home'
+    ]
+);
+// list all categories
+$router->get(
+    '/categories',
+    [
+        'uses' => 'CategoryController@list',
+        'as'   => 'categories-list'
+    ]
+);

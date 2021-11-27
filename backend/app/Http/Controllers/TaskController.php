@@ -26,7 +26,8 @@ class TaskController extends Controller
         $this->validate($request, [
             // title is required, and not more than 128 characters
             'title' => 'required|string|max:128',
-            'categoryId' => 'required|integer',
+           // we check that the value exists in the table 'categories' for the column 'id'
+            'categoryId' => 'required|integer|exists:categories,id',
             'completion' => 'required|integer|between:0,100',
             'status' => 'required|integer|between:1,2',
         ]);

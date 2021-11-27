@@ -37,12 +37,15 @@ class TaskController extends Controller
         //dump($task);
     $isSuccess = $task->save();
 
-        if ($isSuccess) {
+        if (!$isSuccess) {
             // 201 : status code to indicate that something has been created
             // also return the task => useful to provide the id
             return response()->json($task, 201);
         }
 
-        abort(500);
+    // we can return a status code without content
+        //abort(500);
+        // or we can give additionnal information
+        return response()->json(['message' => 'Something went wrong with the database'], 500);
     }
 }

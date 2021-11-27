@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-
+    // https://laravel.com/docs/8.x/eloquent-relationships#one-to-many-inverse
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

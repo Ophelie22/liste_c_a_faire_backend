@@ -40,12 +40,12 @@ class TaskController extends Controller
         if (!$isSuccess) {
             // 201 : status code to indicate that something has been created
             // also return the task => useful to provide the id
-            return response()->json($task, 201);
+           return $this->sendJsonResponse($task, 201);
         }
 
     // we can return a status code without content
         //abort(500);
         // or we can give additionnal information
-        return response()->json(['message' => 'Something went wrong with the database'], 500);
+         return $this->sendJsonResponse(['message' => 'Something went wrong with the database'], 500);
     }
 }

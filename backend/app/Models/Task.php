@@ -1,15 +1,16 @@
 <?php
 namespace App\Models;
 
-// On importe le "CoreModel" de Lumen
-// Ce fichier ne sera jamais éditié, il fait parti du noyau de lumen
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    // https://laravel.com/docs/8.x/eloquent-relationships#one-to-many-inverse
+ // j'indique qu'il y a une catégorie associée à chaque tâche
+    // dump($task->category)
     public function category()
     {
+          // j'indique à Eloquent qu'il y a une relation entre ce modèle et un autre
+        // the model Task is linked to "one" category
         return $this->belongsTo(Category::class);
     }
 }

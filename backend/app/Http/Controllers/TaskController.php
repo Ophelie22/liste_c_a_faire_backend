@@ -6,7 +6,14 @@ class TaskController extends Controller
 {
     public function list()
     {
-        $tasks = Task::all();
+        //$tasks = Task::all();
+        // s'il y a une relation entre Task et autre chose, les informations ne sont
+        // pas chargées automatiquement
+        //$tasks = Task::all();
+
+        // ici on force le chargement des informations des catégories liées aux tâches
+        $tasks = Task::all()->load('category');
+
         // return tasks as JSON
         return response()->json($tasks);
     }
@@ -63,7 +70,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-      // ----- Get the task to update -----
+        // ----- Get the task to update -----
         // findOrFail: if found the treatment goes on, otherwise the treatment
         // is aborted with a status code 404
         $taskToUpdate = Task::findOrFail($id);
@@ -80,6 +87,13 @@ class TaskController extends Controller
             ]);
         } else {
             // ----- Validation -----
+            // check that there is at least one field
+            // $request->json() => get an array containing information
+            // we count information
+            if ($request->json()->count() === 0) {
+                return $this->sendJsonResponse(['message' => 'Missing content'], 422);
+            }
+
             // no field is required
             $this->validate($request, [
                 // title is required, and not more than 128 characters
@@ -105,7 +119,6 @@ class TaskController extends Controller
             $taskToUpdate->status = $request->input('status');
         }
         $isSuccess = $taskToUpdate->save();
-
         // ----- Status code -----
         if ($isSuccess) {
             $this->sendEmptyResponse(200);

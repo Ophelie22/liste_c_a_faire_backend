@@ -59,3 +59,11 @@ $router->put(
         'as'   => 'task-update'
     ]
 );
+// partially modify a task
+$router->patch(
+    '/tasks/{id}',
+    [
+        'uses' => 'TaskController@update',
+        'as'   => 'task-update'
+    ]
+);

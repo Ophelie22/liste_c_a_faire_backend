@@ -82,5 +82,11 @@ class DecouverteLumenController extends Controller
 
     }
 
+  public function testRequest(Request $request)
+    {
+        $data = $request->input();
+        return $this->sendJSONResponse($data);
+    }
 
+   
 }

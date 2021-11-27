@@ -7,8 +7,8 @@ class TaskController extends Controller
 {
     public function list()
     {
-       $tasks = Task::all();
-// return tasks as JSON
+        $tasks = Task::all();
+        // return tasks as JSON
         return response()->json($tasks);
     }
 
@@ -39,12 +39,17 @@ class TaskController extends Controller
         $completion = $request->input('completion');
         $status = $request->input('status');
 
+        
         // add the task to the database
         $task = new Task();
+
         $task->title = $title;
         $task->category_id = $categoryId;
         $task->completion = $completion;
         $task->status = $status;
+
+        $task->updated_at = null;
+        
 
         // before writing to the database: check the data ;)
         //dump($task);
@@ -53,12 +58,54 @@ class TaskController extends Controller
         if (!$isSuccess) {
             // 201 : status code to indicate that something has been created
             // also return the task => useful to provide the id
-           return $this->sendJsonResponse($task, 201);
+            return $this->sendJsonResponse($task, 201);
         }
 
-    // we can return a status code without content
+        // we can return a status code without content
         //abort(500);
         // or we can give additionnal information
-         return $this->sendJsonResponse(['message' => 'Something went wrong with the database'], 500);
+        return $this->sendJsonResponse(['message' => 'Something went wrong with the database'], 500);
+    }
+    /**
+       * Update a task
+       *
+       * @return void
+       */
+    public function update(Request $request, $id)
+    {
+        // ----- Validation -----
+        $this->validate($request, [
+            // title is required, and not more than 128 characters
+            'title' => 'required|string|max:128',
+            // we check that the value exists in the table 'categories' for the column 'id'
+            'categoryId' => 'required|integer|exists:categories,id',
+            'completion' => 'required|integer|between:0,100',
+            'status' => 'required|integer|between:1,2',
+        ]);
+
+        // ----- Get the task to update -----
+        // findOrFail: if found the treatment goes on, otherwise the treatment
+        // is aborted with a status code 404
+        $taskToUpdate = Task::findOrFail($id);
+
+        // ----- Get data from the request -----
+        $title = $request->input('title');
+        $categoryId = $request->input('categoryId');
+        $completion = $request->input('completion');
+        $status = $request->input('status');
+
+        // ----- Update the task and save it -----
+        $taskToUpdate->title = $title;
+        $taskToUpdate->category_id = $categoryId;
+        $taskToUpdate->completion = $completion;
+        $taskToUpdate->status = $status;
+        $isSuccess = $taskToUpdate->save();
+
+        // ----- Status code -----
+        if ($isSuccess) {
+            $this->sendEmptyResponse(200);
+        } else {
+            $this->sendEmptyResponse(500);
+        }
     }
 }

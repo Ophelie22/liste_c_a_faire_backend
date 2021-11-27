@@ -51,3 +51,11 @@ $router->post(
         'as'   => 'task-add'
     ]
 );
+// modify a task
+$router->put(
+    '/tasks/{id}',
+    [
+        'uses' => 'TaskController@update',
+        'as'   => 'task-update'
+    ]
+);

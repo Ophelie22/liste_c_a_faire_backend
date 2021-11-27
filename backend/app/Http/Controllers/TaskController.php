@@ -7,6 +7,7 @@ class TaskController extends Controller
 {
     public function list()
     {
+       $tasks = Task::all();
 // return tasks as JSON
         return response()->json($tasks);
     }
@@ -19,6 +20,17 @@ class TaskController extends Controller
     public function add(Request $request)
     {
         // get information about the task
+        // validate data
+        // https://laravel.com/docs/7.x/validation#quick-writing-the-validation-logic
+        // if a condition is not right, then it's like abort, the treatment will stop
+        $this->validate($request, [
+            // title is required, and not more than 128 characters
+            'title' => 'required|string|max:128',
+            'categoryId' => 'required|integer',
+            'completion' => 'required|integer|between:0,100',
+            'status' => 'required|integer|between:1,2',
+        ]);
+        // from here, it means data is OK, validation did not see problems
 
         // get the information named 'title' in the JSON of the request
         $title = $request->input('title');

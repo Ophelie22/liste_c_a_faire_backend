@@ -1,4 +1,4 @@
-<?php
+<<?php
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -34,6 +34,7 @@ $router->get(
         'as'   => 'categories-item'
     ]
 );
+
 // list all tasks
 $router->get(
     '/tasks',
@@ -42,28 +43,11 @@ $router->get(
         'as'   => 'tasks-list'
     ]
 );
-
 // add a task
 $router->post(
-    '/tasks',
-    [
+     '/tasks',
+    [ 
         'uses' => 'TaskController@add',
         'as'   => 'task-add'
-    ]
-);
-// modify a task
-$router->put(
-    '/tasks/{id}',
-    [
-        'uses' => 'TaskController@update',
-        'as'   => 'task-update'
-    ]
-);
-// partially modify a task
-$router->patch(
-    '/tasks/{id}',
-    [
-        'uses' => 'TaskController@update',
-        'as'   => 'task-update'
     ]
 );
